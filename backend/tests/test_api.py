@@ -54,6 +54,8 @@ def test_day_ahead_uses_gate_closure_on_previous_day(client):
     assert body["forecastPublishTime"] <= body["gateClosureUtc"]
     assert body["energy"]["hours"] == 24
     assert body["energy"]["actualMwh"] == 24000
+    assert body["forecastPublishTime"] in body["forecastRuns"]
+    assert any(run > body["gateClosureUtc"] for run in body["forecastRuns"])  # later runs listed but unused
 
 
 def test_daily_accuracy(client):
