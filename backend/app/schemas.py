@@ -96,6 +96,8 @@ class DayAheadResponse(ApiModel):
     gate_closure_local: str
     gate_closure_utc: datetime
     forecast_publish_time: datetime | None
+    # Every forecast run issued between D-1 00:00 and the end of D (for the decision timeline).
+    forecast_runs: list[datetime]
     points: list[SeriesPoint]
     summary: ErrorStats
     band: Band

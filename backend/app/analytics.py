@@ -212,11 +212,22 @@ def day_ahead_view(ds: WindDataset, settings: Settings, day: date, gate: time) -
     residuals = _daily_energy_errors(ds, settings, gate)
     r10, r90 = percentile(residuals, 10), percentile(residuals, 90)
     publish_times = {p.forecast.publish_time for p in points if p.forecast is not None}
+    day_start, day_end = delivery_day_bounds(day, tz)
+    runs_from = day_start - timedelta(days=1)
+    runs = sorted(
+        {
+            published
+            for p in points
+            for published in ds.forecasts.publish_times_for(p.time)
+            if runs_from <= published < day_end
+        }
+    )
     return schemas.DayAheadResponse(
         delivery_date=day,
         gate_closure_local=gate.strftime("%H:%M"),
         gate_closure_utc=cutoff,
         forecast_publish_time=max(publish_times) if publish_times else None,
+        forecast_runs=runs,
         points=to_series(points, band),
         summary=to_stats(summarize(pairs_of(points))),
         band=band,

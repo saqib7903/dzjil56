@@ -55,6 +55,9 @@ class ForecastIndex:
         idx = bisect_right(publish_times, cutoff) - 1
         return self._points[target][idx] if idx >= 0 else None
 
+    def publish_times_for(self, target: datetime) -> list[datetime]:
+        return list(self._publish_times.get(target, ()))
+
 
 def horizon_cutoff(horizon_hours: float) -> Cutoff:
     lead = timedelta(hours=horizon_hours)
