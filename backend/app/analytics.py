@@ -153,7 +153,7 @@ def _day_points(ds: WindDataset, day: date, gate: time, tz: ZoneInfo) -> tuple[d
     return cutoff, align(ds.actuals, ds.forecasts, start, end, lambda _t: cutoff)
 
 
-def _day_energy(points: list[AlignedPoint]) -> tuple[float, float | None, float | None]:
+def day_energy(points: list[AlignedPoint]) -> tuple[float, float | None, float | None]:
     """(hours, forecast MWh, actual MWh) using mean MW x day length.
 
     Forecasts are hourly and actuals half-hourly, so averaging MW before
@@ -196,7 +196,7 @@ def _daily_energy_errors(ds: WindDataset, settings: Settings, gate: time) -> lis
     def compute() -> list[float]:
         errors = []
         for _, _, pts in daily_records(ds, settings, gate):
-            _, fc, ac = _day_energy(pts)
+            _, fc, ac = day_energy(pts)
             if fc is not None and ac is not None:
                 errors.append(ac - fc)
         return errors
@@ -208,7 +208,7 @@ def day_ahead_view(ds: WindDataset, settings: Settings, day: date, gate: time) -
     tz = ZoneInfo(settings.market_timezone)
     cutoff, points = _day_points(ds, day, gate, tz)
     band = gate_band(ds, settings, gate)
-    hours, fc_mwh, ac_mwh = _day_energy(points)
+    hours, fc_mwh, ac_mwh = day_energy(points)
     residuals = _daily_energy_errors(ds, settings, gate)
     r10, r90 = percentile(residuals, 10), percentile(residuals, 90)
     publish_times = {p.forecast.publish_time for p in points if p.forecast is not None}
@@ -251,7 +251,7 @@ def daily_accuracy(ds: WindDataset, settings: Settings, gate: time) -> schemas.D
     for day, _, pts in daily_records(ds, settings, gate):
         pairs = pairs_of(pts)
         all_pairs.extend(pairs)
-        _, fc, ac = _day_energy(pts)
+        _, fc, ac = day_energy(pts)
         s = summarize(pairs)
         days.append(
             schemas.DailyAccuracy(
