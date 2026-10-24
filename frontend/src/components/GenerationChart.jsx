@@ -95,7 +95,7 @@ export default function GenerationChart({ points, showBand = true, height = 380,
             stroke="var(--rule-strong)"
           />
           <YAxis
-            width={56}
+            width={64}
             tickFormatter={(v) => `${+(v / 1000).toFixed(1)} GW`}
             tick={{ fill: 'var(--ink-3)', fontSize: 12 }}
             stroke="var(--rule-strong)"

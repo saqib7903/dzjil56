@@ -59,7 +59,7 @@ export function HorizonCurveChart({ points, dayAheadRange, selected, height = 30
             stroke="var(--rule-strong)"
             label={{ value: 'Minimum lead time (hours)', position: 'insideBottom', offset: -10, fill: 'var(--ink-3)', fontSize: 12 }}
           />
-          <YAxis width={60} tickFormatter={gw} tick={axisTick} stroke="var(--rule-strong)" />
+          <YAxis width={64} tickFormatter={gw} tick={axisTick} stroke="var(--rule-strong)" />
           <Tooltip
             content={({ active, payload }) =>
               active && payload?.length ? (
@@ -152,7 +152,7 @@ export function HourlyErrorChart({ hourly, height = 220 }) {
             tick={axisTick}
             stroke="var(--rule-strong)"
           />
-          <YAxis width={60} tickFormatter={gw} tick={axisTick} stroke="var(--rule-strong)" />
+          <YAxis width={64} tickFormatter={gw} tick={axisTick} stroke="var(--rule-strong)" />
           <Tooltip
             cursor={{ fill: 'rgba(15,34,51,0.05)' }}
             content={({ active, payload }) =>
