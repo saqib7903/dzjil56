@@ -1,0 +1,5 @@
+# Extra dependencies for the analysis notebook (on top of backend/requirements.txt)
+-r ../backend/requirements.txt
+pandas==2.2.3
+matplotlib==3.9.4
+jupyterlab==4.3.4
