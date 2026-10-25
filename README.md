@@ -2,7 +2,7 @@
 
 A web app for a UK utility's day-ahead trading desk. It shows the national wind forecast that was actually available when the desk had to buy power, and measures how accurate those forecasts were, so purchase volumes can be sized with the error in mind.
 
-**Live app:** https://YOUR-PROJECT.vercel.app
+**Live app:** https://dzjil56.vercel.app
 
 ![Day-ahead view](docs/screenshots/day-ahead.png)
 
